@@ -8,8 +8,9 @@ export const GlobalStyles = createGlobalStyle`
   }
   
   body {
+    background-color: ${(props) => props.theme.background};
+    color: ${(props) => props.theme.color};
     font-family: 'Arial', sans-serif;
-    background-color: #f0f0f5;
-    color: #333;
+    transition: all 0.3s ease;
   }
 `;
