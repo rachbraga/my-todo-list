@@ -1,31 +1,47 @@
 import React, { useState } from 'react';
 import * as S from './styles'
+import { useTheme } from '../ThemeContext/index';
 
 interface AddTaskProps {
-  addTask: (task: string) => void;
+  addTask: (task: string, priority: 'low' | 'medium' | 'high') => void; 
 }
 
 const AddTask: React.FC<AddTaskProps> = ({ addTask }) => {
-    const [task, setTask] = useState('');
-  
-    const handleAddTask = () => {
-      if (task) {
-        addTask(task);
-        setTask('');
-      }
-    };
-  
-    return (
-      <S.AddTaskContainer>
-        <S.Input 
-          value={task} 
-          onChange={(e) => setTask(e.target.value)} 
-          onKeyPress={(e) => e.key === 'Enter' && handleAddTask()} 
-          placeholder="Adicione uma nova tarefa" 
-        />
-        <S.Button onClick={handleAddTask}>+</S.Button>
-      </S.AddTaskContainer>
-    );
+  const [task, setTask] = useState('');
+  const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium'); 
+  const { toggleTheme, isDarkMode } = useTheme();
+
+  const handleAddTask = () => {
+    if (task) {
+      addTask(task, priority); 
+      setTask('');
+      setPriority('medium'); 
+    }
   };
-  
-  export default AddTask;
+
+  return (
+    <S.AddTaskContainer isDarkMode={isDarkMode}>
+      <S.Input 
+      isDarkMode={isDarkMode}
+        value={task} 
+        onChange={(e) => setTask(e.target.value)} 
+        onKeyPress={(e) => e.key === 'Enter' && handleAddTask()} 
+        placeholder="Adicione uma nova tarefa" 
+      />
+      
+      {/* Seletor de prioridade */}
+      <S.Select 
+        value={priority} 
+        onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
+      >
+        <option value="low">Baixa</option>
+        <option value="medium">Média</option>
+        <option value="high">Alta</option>
+      </S.Select>
+
+      <S.Button onClick={handleAddTask}>+</S.Button>
+    </S.AddTaskContainer>
+  );
+};
+
+export default AddTask;

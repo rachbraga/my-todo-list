@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
 import * as S from './styles';
+import { useTheme } from '../ThemeContext/index';
+
 
 interface TaskItemProps {
   task: string;
@@ -7,11 +9,18 @@ interface TaskItemProps {
   onDelete: () => void;
   onEdit: (newText: string) => void;
   onComplete: () => void;
+  onAddSubtask: (text: string) => void;
+  priority: 'low' | 'medium' | 'high';
+  onEditPriority: (newPriority : 'low'| 'medium' | 'high') => void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, completed, onDelete, onEdit, onComplete }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, completed, onDelete, onEdit, onComplete, priority,onEditPriority }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task);
+  const [editPriority, setEditPriority] = useState(priority);
+  const [changePriority, setChangePriority] = useState (false)
+  const { toggleTheme, isDarkMode } = useTheme();
+
 
   const handleEditChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEditText(e.target.value);
@@ -30,17 +39,31 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, completed, onDelete, onEdit, 
     }
   };
 
+  const handlePriorityChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const newPriority = e.target.value as 'low' | 'medium' | 'high';
+    setEditPriority(newPriority);
+    onEditPriority(newPriority);
+    setChangePriority(false)
+  };
+
   return (
-    <S.TaskItemContainer completed={completed}>
+    <S.TaskItemContainer completed={completed} isDarkMode={isDarkMode}>
+       <S.PriorityIndicator priority={priority} onClick={() => setChangePriority(!changePriority)}>
+       { changePriority && <select value={editPriority} onChange={handlePriorityChange}>
+            <option value="low">Baixa</option>
+            <option value="medium">Média</option>
+            <option value="high">Alta</option>
+          </select>}
+          </S.PriorityIndicator>
       {isEditing && !completed ? (
-        <input
+        <><input
           type="text"
           value={editText}
           onChange={handleEditChange}
           onBlur={handleEditSave} // Salva a edição quando o campo perde o foco
           onKeyDown={handleKeyDown} // Salva a edição quando a tecla Enter é pressionada
           autoFocus // Foca automaticamente no campo quando entra no modo de edição
-        />
+        /></>
       ) : (
         <span
           onDoubleClick={() => {
@@ -50,8 +73,9 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, completed, onDelete, onEdit, 
           {task}
         </span>
       )}
-      <S.IconsContainer>
-        <S.Icon onClick={onComplete}>{completed ? '☑️' : '✅'}</S.Icon>
+      <S.IconsContainer >
+    
+        <S.Icon onClick={onComplete}>{completed ? '✅':'🟩'  }</S.Icon>
         {!completed && (
           <S.Icon onClick={() => setIsEditing(true)}>✏️</S.Icon> // Exibe o ícone de edição somente se a tarefa não estiver concluída
         )}

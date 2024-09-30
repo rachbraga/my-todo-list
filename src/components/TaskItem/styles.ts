@@ -1,19 +1,42 @@
 import styled from 'styled-components';
 
-export const TaskItemContainer = styled.div<{ completed: boolean }>`
+interface TaskItemContainerProps {
+  completed: boolean;
+  isDarkMode: boolean;
+}
+export const PriorityIndicator = styled.div<{ priority: 'low' | 'medium' | 'high' }>`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: ${({ priority }) => {
+    switch (priority) {
+      case 'high':
+        return 'red';
+      case 'medium':
+        return 'orange';
+      case 'low':
+        return 'green';
+      default:
+        return 'transparent';
+    }
+  }};
+  margin-right: 10px;
+`;
+export const TaskItemContainer = styled.div<TaskItemContainerProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  background-color: ${(props) => (props.completed ? '#d3ffd3' : '#fff')};
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-decoration: ${(props) => (props.completed ? 'line-through' : 'none')};
+  padding: 10px;
+  margin: 10px 0;
+  background-color: ${({ isDarkMode }) => (isDarkMode ? '#333' : '#fff')};
+  color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#000')};
+  border: 1px solid ${({ completed }) => (completed ? '#1e597b':'#ff66b2')};
+  opacity:${({ completed }) => (completed ? '0.5' : '1')};
+  border-radius: 4px;
 
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
+  span {
+    text-decoration: ${({ completed }) => (completed ? 'line-through' : 'none')};
+    cursor: pointer;
   }
 `;
 
