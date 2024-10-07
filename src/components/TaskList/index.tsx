@@ -24,7 +24,7 @@ interface Task {
 const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
-  const [complete,setComplete] = useState(true)
+  const [complete,setComplete] = useState(false)
   const {  isDarkMode } = useTheme();
 
   const sortTasksByPriority = (tasks: Task[]) => {
