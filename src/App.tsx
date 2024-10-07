@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GlobalStyles } from './styles/GlobalStyles';
 import TaskList from './components/TaskList';
 import * as S from './AppStyle'
@@ -9,11 +9,13 @@ import { FaRegMoon } from "react-icons/fa";
 import { useTheme } from './components/ThemeContext/index';
 import titleDark from '../src/assets/titleDark.png'
 import titleLigth from '../src/assets/titleLight.png'
+import Modal from './components/Modal';
 
 
 
 const App: React.FC = () => {
-  const { toggleTheme, isDarkMode } = useTheme();
+  const {  isDarkMode } = useTheme();
+  const [openModal, setOpenModal] = useState(true);
   const tips = [
     { title: "Anote tudo", description: "Coloque no papel ou no aplicativo todas as tarefas que você precisa fazer." },
     { title: "Comece pelo que precisa ser feito primeiro", description: "Foque nas tarefas mais importantes ou urgentes logo de manhã." },
@@ -27,7 +29,16 @@ const App: React.FC = () => {
     <>
       <GlobalStyles />
       <S.Container>
+        {openModal && <S.ModalBackground/>}
         <S.Header>
+          {openModal && 
+          <Modal 
+          title="Bem vindo(a)!"
+          text="Organize suas atividades de forma simples e eficiente.
+            Vamos começar a planejar seu dia e alcançar seus objetivos!"
+            textButton='Vamos lá!'
+          setOpen={setOpenModal}/>
+          }
           <S.Title isDarkMode={isDarkMode}>
           <img src={isDarkMode ? titleDark : titleLigth} alt="Furry white cat sitting on a wall"/>
           </S.Title>

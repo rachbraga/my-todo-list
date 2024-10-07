@@ -9,7 +9,7 @@ interface AddTaskProps {
 const AddTask: React.FC<AddTaskProps> = ({ addTask }) => {
   const [task, setTask] = useState('');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium'); 
-  const { toggleTheme, isDarkMode } = useTheme();
+  const {  isDarkMode } = useTheme();
 
   const handleAddTask = () => {
     if (task) {
@@ -31,6 +31,7 @@ const AddTask: React.FC<AddTaskProps> = ({ addTask }) => {
       
       {/* Seletor de prioridade */}
       <S.Select 
+        isDarkMode={isDarkMode}
         value={priority} 
         onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
       >
@@ -39,7 +40,7 @@ const AddTask: React.FC<AddTaskProps> = ({ addTask }) => {
         <option value="high">Alta</option>
       </S.Select>
 
-      <S.Button onClick={handleAddTask}>+</S.Button>
+      <S.Button isDarkMode={isDarkMode} onClick={handleAddTask}>+</S.Button>
     </S.AddTaskContainer>
   );
 };

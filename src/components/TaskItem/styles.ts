@@ -28,9 +28,9 @@ export const TaskItemContainer = styled.div<TaskItemContainerProps>`
   align-items: center;
   padding: 10px;
   margin: 10px 0;
-  background-color: ${({ isDarkMode }) => (isDarkMode ? '#333' : '#fff')};
+  background-color: ${({ isDarkMode }) => (isDarkMode ? '#772014' : '#fff')};
   color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#000')};
-  border: 1px solid ${({ completed }) => (completed ? '#1e597b':'#ff66b2')};
+  border: 1px solid ${({ completed }) => (completed ? '#19180a':'##772014')};
   opacity:${({ completed }) => (completed ? '0.5' : '1')};
   border-radius: 4px;
 
