@@ -17,14 +17,14 @@ export const Container = styled.div`
 export const ContentTodo = styled.div<DarkModeApp>`
   width: 100%;
   height: 100%;
-  max-height: calc(100vh - 100px); /* Garante que o container ocupe quase a tela inteira */
+  max-height: calc(100vh - 100px); 
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 10px;
   padding: 10px;
   margin-top: 50px;
-  box-shadow: 0 8px 16px ${({ isDarkMode }) => (isDarkMode ? '#ff66b2' : 'rgba(0, 0, 0, 0.2)')};
+  box-shadow: 0 8px 16px ${({ isDarkMode }) => (isDarkMode ? '#19180a' : 'rgba(0, 0, 0, 0.2)')};
 
   @media (max-width: 768px) {
     margin-top: 20px;
@@ -48,12 +48,12 @@ export const ContentWrapper = styled.div`
 export const ContainerTips = styled.div<DarkModeApp>`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  max-height: calc(100vh - 200px); 
   align-items: center;
   justify-content: space-between;
 
   @media (max-width: 768px) {
-    display: none; /* Esconde o ContainerTips em dispositivos móveis */
+    display: none; 
   }
 `;
 
@@ -61,13 +61,15 @@ export const AppContainer = styled.div<DarkModeApp>`
   width: 70%;
   padding: 2rem;
   border-radius: 15px;
-  max-height: 600px;
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 10px;
   margin-right: 20px;
 
+  
   ::-webkit-scrollbar {
-    width: 3px;
+    width: 6px; 
   }
 
   ::-webkit-scrollbar-thumb {
@@ -80,12 +82,17 @@ export const AppContainer = styled.div<DarkModeApp>`
     background-color: ${({ isDarkMode }) => (isDarkMode ? '#333' : '#f1f1f1')};
   }
 
+  
+  scrollbar-width: thin;
+  scrollbar-color: ${({ isDarkMode }) => (isDarkMode ? '#8c3608 #8d220c' : '#dfa06d   #f1f1f1')};
+
   @media (max-width: 768px) {
     max-height: 400px;
     margin-right: 0;
-    width: 100%; /* Ajusta a largura para ocupar toda a tela em dispositivos móveis */
+    width: 100%; 
   }
 `;
+
 
 export const Title = styled.div<DarkModeApp>`
   display: flex;
@@ -99,7 +106,7 @@ export const Title = styled.div<DarkModeApp>`
     width: 550px;
 
     @media (max-width: 768px) {
-      width: 100%; /* Ajusta o tamanho da imagem para caber na tela menor */
+      width: 100%; 
     }
   }
 `;
@@ -123,7 +130,7 @@ export const SwitchContainer = styled.div`
 `;
 
 export const ImageBook = styled.div<DarkModeApp>`
-  width: 300px;
+  width: 325px;
   height: 270px;
   border-radius: 10px;
   background-image: ${({ isDarkMode }) => (isDarkMode ? `url(${dark})` : `url(${ligth})`)};
@@ -132,7 +139,20 @@ export const ImageBook = styled.div<DarkModeApp>`
   margin-bottom: 20px;
 
   @media (max-width: 768px) {
-    width: 100%; /* Faz com que a imagem ocupe toda a largura da tela em dispositivos móveis */
+    width: 100%; 
     height: auto;
   }
+`;
+
+export const ModalBackground = styled.div`
+  background: rgba(0, 0, 0, 0.5); 
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

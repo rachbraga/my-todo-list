@@ -19,7 +19,7 @@ export const SwitchInput = styled.input`
   height: 0;
   
   &:checked + span {
-    background-color: #360d1a;
+    background: linear-gradient(90deg, hsla(21, 89%, 29%, 1) 0%, hsla(10, 84%, 30%, 1) 100%);
   }
 
   &:checked + span:before {
@@ -34,7 +34,7 @@ export const SwitchSlider = styled.span`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background: linear-gradient(90deg, hsla(356, 74%, 52%, 1) 0%, hsla(27, 84%, 75%, 1) 0%, hsla(27, 64%, 65%, 1) 99%);
   transition: 0.4s;
   border-radius: 34px;
 

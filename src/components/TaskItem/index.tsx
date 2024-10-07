@@ -60,14 +60,14 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, completed, onDelete, onEdit, 
           type="text"
           value={editText}
           onChange={handleEditChange}
-          onBlur={handleEditSave} // Salva a edição quando o campo perde o foco
-          onKeyDown={handleKeyDown} // Salva a edição quando a tecla Enter é pressionada
-          autoFocus // Foca automaticamente no campo quando entra no modo de edição
+          onBlur={handleEditSave} 
+          onKeyDown={handleKeyDown} 
+          autoFocus 
         /></>
       ) : (
         <span
           onDoubleClick={() => {
-            if (!completed) setIsEditing(true); // Permite entrar no modo de edição somente se a tarefa não estiver concluída
+            if (!completed) setIsEditing(true); 
           }}
         >
           {task}
@@ -77,7 +77,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, completed, onDelete, onEdit, 
     
         <S.Icon onClick={onComplete}>{completed ? '✅':'🟩'  }</S.Icon>
         {!completed && (
-          <S.Icon onClick={() => setIsEditing(true)}>✏️</S.Icon> // Exibe o ícone de edição somente se a tarefa não estiver concluída
+          <S.Icon onClick={() => setIsEditing(true)}>✏️</S.Icon> 
         )}
         <S.Icon onClick={onDelete}>🗑️</S.Icon>
       </S.IconsContainer>

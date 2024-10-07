@@ -3,14 +3,14 @@ import { ThemeProvider } from 'styled-components';
 
 
 export const lightTheme = {
-    background: '#f7eef1',
-    color: '#333',
+    background: '#f5f3bb',
+    color: '#3f220f',
     buttonBackground: '#ff66b2',
   };
   
   export const darkTheme = {
-    background: '#260913',
-    color: '#f9f9f9',
+    background: '#3f220f',
+    color: '#dfa06e',
     buttonBackground: '#6200ea',
   };
 

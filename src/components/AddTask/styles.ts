@@ -9,7 +9,7 @@ export const AddTaskContainer = styled.div<DarkMode>`
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  background-color: ${({ isDarkMode }) => (isDarkMode ? '#333' : '#fff')};
+  background-color: ${({ isDarkMode }) => (isDarkMode ? '#772014' : '#fff')};
   color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#000')};
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -23,24 +23,29 @@ export const AddTaskContainer = styled.div<DarkMode>`
 export const Input = styled.input<DarkMode>`
   flex: 1;
   padding: 0.5rem;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  background-color: ${({ isDarkMode }) => (isDarkMode ? '#333' : '#fff')};
+  color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#000')};
+  background-color: ${({ isDarkMode }) => (isDarkMode ? '#772014' : '#fff')};
   font-size: 1rem;
+  border:none;
 
   @media (min-width: 600px) {
     margin-right: 1rem;
   }
 `;
-export const Select = styled.select`
+
+export const Select = styled.select<DarkMode>`
   padding: 5px;
   margin-left: 10px;
   font-size: 1rem;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: none;
+  background-color: ${({ isDarkMode }) => (isDarkMode ? '#772014' : '#fff')};
 `;
-export const Button = styled.button`
-  background-color: #ff66b2;
+
+export const Button = styled.button<DarkMode>`
+  background: ${({ isDarkMode }) => (isDarkMode ? 
+    'linear-gradient(90deg, hsla(21, 89%, 29%, 1) 0%, hsla(10, 84%, 30%, 1) 100%)' : 
+    'linear-gradient(90deg, hsla(356, 74%, 52%, 1) 0%, hsla(27, 84%, 75%, 1) 0%, hsla(27, 64%, 65%, 1) 99%)')};
   border: none;
   color: white;
   padding: 0.5rem 1rem;

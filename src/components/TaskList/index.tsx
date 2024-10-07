@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './styles';
 import TaskItem from '../TaskItem';
 import AddTask from '../AddTask';
 import { useTheme } from '../ThemeContext/index';
-import { motion } from 'framer-motion';
+import party from 'party-js';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Modal from '../Modal';
 
 interface SubTask {
   id: number;
@@ -23,11 +24,19 @@ interface Task {
 const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
-  const { toggleTheme, isDarkMode } = useTheme();
+  const [complete,setComplete] = useState(true)
+  const {  isDarkMode } = useTheme();
+
+  const sortTasksByPriority = (tasks: Task[]) => {
+    return tasks.sort((a, b) => {
+      const priorities = { high: 3, medium: 2, low: 1 };
+      return priorities[b.priority] - priorities[a.priority];
+    });
+  };
 
   const addTask = (text: string, priority: 'low' | 'medium' | 'high') => {
     const newTask: Task = { id: Date.now(), text, completed: false, subtasks: [], priority: priority};
-    setTasks([...tasks, newTask]);
+    setTasks((prevTasks) => sortTasksByPriority([...prevTasks, newTask]));
   };
 
   const deleteTask = (id: number) => {
@@ -69,12 +78,41 @@ const TaskList: React.FC = () => {
     setTasks(reorderedTasks);
   };
 
-  const editPriority = (id:number, newPriority:'low' | 'medium' | 'high') => {
-    setTasks(prevTasks => prevTasks.map(task => task.id === id ? { ...task, priority: newPriority} : task))
-  }
-console.log(tasks.filter(t => t.completed) )
+  const editPriority = (id: number, newPriority: 'low' | 'medium' | 'high') => {
+    setTasks((prevTasks) =>
+      sortTasksByPriority(
+        prevTasks.map((task) => 
+          task.id === id ? { ...task, priority: newPriority } : task
+        )
+      )
+    );
+  };
+
+  useEffect(() => {
+    const totalTasks = tasks.length;
+    const completedTasks = tasks.filter(t => t.completed).length;
+    const progress = Math.round((completedTasks / totalTasks) * 100);
+
+    if (progress === 100 && Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100) === 100 && totalTasks > 0) {
+      setComplete(true);
+      party.confetti(document.body, {
+        count: party.variation.range(100, 200), 
+        size: party.variation.range(1, 3), 
+      }); 
+    }
+  }, [tasks]);
+
   return (
     <div>
+      {complete && <S.ModalBackground/>}
+
+      {complete && 
+          <Modal 
+          title="Uhuu! Você conseguiu..."
+          text="todas as suas tarefas foram concluídas!"
+          textButton='Voltar'
+          setOpen={setComplete}/>
+          }
       <S.FiltersContainer>
         <S.FilterButton isDarkMode={isDarkMode} onClick={() => setFilter('all')}>Todos</S.FilterButton>
         <S.FilterButton isDarkMode={isDarkMode} onClick={() => setFilter('active')}>A Fazer</S.FilterButton>
@@ -98,7 +136,7 @@ console.log(tasks.filter(t => t.completed) )
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="tasks">
           {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+            <div {...provided.droppableProps} ref={provided.innerRef} className="task-list">
               {filteredTasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={String(task.id)} index={index}>
                 {(provided) => (
@@ -107,6 +145,8 @@ console.log(tasks.filter(t => t.completed) )
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     style={{ ...provided.draggableProps.style }} 
+                    className="task-item"
+
                   >
                     <TaskItem
                       task={task.text}
